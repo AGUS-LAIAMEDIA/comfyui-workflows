@@ -1,0 +1,568 @@
+{
+  "id": "f43a19c9-8e1a-4f8c-9f59-e804e109fb6e",
+  "revision": 0,
+  "last_node_id": 12,
+  "last_link_id": 13,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "DualCLIPLoaderGGUF",
+      "pos": [
+        -671.6512291788047,
+        -808.4727541735745
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            1,
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-gguf",
+        "ver": "1.1.10",
+        "Node name for S&R": "DualCLIPLoaderGGUF"
+      },
+      "widgets_values": [
+        "t5xxl_fp8_e4m3fn.safetensors",
+        "clip_l.safetensors",
+        "flux"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 10,
+      "type": "VAEDecode",
+      "pos": [
+        511.0798549053642,
+        -532.8460799159478
+      ],
+      "size": [
+        169.8580078125,
+        57.657874163938004
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 12
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [
+        -660.5170191837248,
+        -572.7161052226764
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.safetensors"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 2,
+      "type": "UnetLoaderGGUF",
+      "pos": [
+        -662.974746468661,
+        -1034.3363571096218
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-gguf",
+        "ver": "1.1.10",
+        "Node name for S&R": "UnetLoaderGGUF"
+      },
+      "widgets_values": [
+        "flux1-dev-Q5_K_S.gguf"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 11,
+      "type": "SaveImage",
+      "pos": [
+        829.0197161469681,
+        -550.7879950468463
+      ],
+      "size": [
+        296.5390625,
+        270
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 13
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0"
+      },
+      "widgets_values": [
+        "flux_dev_gguf"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -178.03954686375613,
+        -610.2645217177081
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 9,
+      "type": "KSampler",
+      "pos": [
+        460.9011874241982,
+        -907.4616509355043
+      ],
+      "size": [
+        285.4296875,
+        262
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 10
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        998374099277766,
+        "fixed",
+        28,
+        1,
+        "euler",
+        "simple",
+        1
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 8,
+      "type": "FluxGuidance",
+      "pos": [
+        424.2478674772089,
+        -1081.6702788765085
+      ],
+      "size": [
+        344.525390625,
+        58
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "FluxGuidance"
+      },
+      "widgets_values": [
+        3
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -187.79798018648225,
+        -1136.164036748334
+      ],
+      "size": [
+        438.83816025479837,
+        211.66463910612333
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "A speed skater stands alone at the center of an Olympic ice rink, seen from \ndirectly behind, completely still. He is small in the frame — a human figure \ndwarfed by the vast oval of ice stretching before him and to both sides. He \nwears a full aerodynamic speed skating suit, skin-tight, long-blade speed \nskates on the ice. His posture is not rest — it is concentration held in the \nbody: shoulders level, head slightly forward, weight centered, as if he is \nreading something written in the ice ahead of him. No face. Only the shape \nof absolute focus.\n\nThe rink is Olympic-scale and empty. The ice surface extends from foreground \nto far boards in a long, cold plane — a pale blue-white, flawless in the center \nand faintly scuffed at the lane markers from earlier sessions. The red and blue \nlane markings run in long parallels away from the skater toward the far end, \nconverging slightly, giving the ice perspective and depth. The boards are white, \nlow, utilitarian. Beyond the boards, the stands rise in tiers — empty, dim, \nthe seats folded up, row after row receding into shadow. The architecture of \nthe arena is visible above: high industrial ceiling, the structural steel of the \nroof trusses, the rigging for the lighting rigs. Everything enormous. Everything \nempty except him.\n\nThe lighting is cold and institutional — a grid of high-mounted industrial \nfluorescent and discharge fixtures blazing blue-white light straight down onto \nthe ice. The ice reflects it back, luminous, almost glowing from within, a flat \nhard light with no warmth, no directionality, no shadows except the single faint \nshadow the skater casts directly beneath himself. The stands beyond the boards \nfall into graduated darkness — not black, but a deep cool grey-blue, the seats \njust legible in the spill. The ceiling lights are visible as bright point sources \nin the upper frame, industrial and indifferent.\n\nCinematic still, anamorphic widescreen, ultra-wide. Camera placed at ice level — \nliterally on the surface, looking across the ice toward the skater and the far \nend of the rink. The ice surface fills the lower third of the frame, the skater \nstands at center-middle distance, the far boards and rising empty stands fill \nthe upper half. 24mm lens equivalent, deep focus — ice, skater, boards, stands, \nceiling all sharp and present. The scale of the arena against the solitude of \none human being is the image. Cold blue-white palette throughout, near-monochrome, \nonly the lane markings offering red and blue as the sole color notes. \nHeavy film grain. Silence made visible."
+      ]
+    },
+    {
+      "id": 7,
+      "type": "EmptyLatentImage",
+      "pos": [
+        -168.36929866251376,
+        -846.0603195158712
+      ],
+      "size": [
+        385.87102515555114,
+        156.50251823527958
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.13.0",
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1280,
+        544,
+        1
+      ]
+    },
+    {
+      "id": 12,
+      "type": "MarkdownNote",
+      "pos": [
+        -1201.6512291788047,
+        -1209.7640367483339
+      ],
+      "size": [
+        460,
+        420
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "About this workflow",
+      "properties": {},
+      "widgets_values": [
+        "# FLUX.1 dev · GGUF · Apple Silicon\n\nBy **Agustí Figueras** · github.com/AGUS-LAIAMEDIA/comfyui-workflows\n\nBase text-to-image for FLUX.1 [dev] quantized to **Q5_K_S**, so it fits in 24 GB of unified memory on a Mac.\n\n- Needs the **ComfyUI-GGUF** custom node.\n- Write prompts as prose, not comma lists.\n- CFG stays at **1.0**. Steer with **FluxGuidance** (3.0–3.5).\n- At CFG 1.0 the negative prompt has no effect, so it stays empty.\n- **1280 × 544** = 2.35:1 scope frame.\n- Sampler **euler** + scheduler **simple**. Avoid karras / exponential on FLUX."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      5,
+      0,
+      "CLIP"
+    ],
+    [
+      2,
+      1,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      2,
+      0,
+      9,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      3,
+      0,
+      10,
+      1,
+      "VAE"
+    ],
+    [
+      8,
+      5,
+      0,
+      8,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      9,
+      8,
+      0,
+      9,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      6,
+      0,
+      9,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      11,
+      7,
+      0,
+      9,
+      3,
+      "LATENT"
+    ],
+    [
+      12,
+      9,
+      0,
+      10,
+      0,
+      "LATENT"
+    ],
+    [
+      13,
+      10,
+      0,
+      11,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "MODELS",
+      "bounding": [
+        -681.6512291788047,
+        -1107.9363571096217,
+        301.1342099950799,
+        603.2202518869453
+      ],
+      "color": "#88A",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "PROMPT",
+      "bounding": [
+        -197.79798018648225,
+        -1209.7640367483339,
+        458.83816025479837,
+        809.4995150306258
+      ],
+      "color": "#8A8",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "EXECUTION",
+      "bounding": [
+        414.2478674772089,
+        -1155.2702788765084,
+        721.3109111697593,
+        884.4822838296623
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "workflowRendererVersion": "LG",
+    "ds": {
+      "scale": 0.7037049441733885,
+      "offset": [
+        846.215948126199,
+        1378.976431561973
+      ]
+    },
+    "frontendVersion": "1.38.13"
+  },
+  "version": 0.4
+}
